@@ -55,15 +55,7 @@ int select(vector<int> arrp, int number, int rank){
    //cout << number << endl;
    
     int need = number%5;
-/*
-    if(number <20){
-        for (auto i : arrp){
-            cout << i <<" ";
-        }
-        cout <<endl;
-        cout << number << " "<< rank << endl;
-    }
-  */
+
     if(need >0)
         need = 5 - need;
     number += need;
@@ -79,21 +71,14 @@ int select(vector<int> arrp, int number, int rank){
     else{
        
         vector<int> middle;       //sort each 5 item group and sort all group by median 
-        //vector<int> tmp;
+      
         int number_d = number/5;
         for(int i=0;i<number_d;i++){
-         
-         //   for(int j=0;j<5;j++){
-          //    tmp.push_back(arrp[i*5+j]);
-         //   }
+     
             Qsort(arrp,5*i,5*i+4);
             
             middle.push_back(arrp[5*i+2]);
             
-           // for(int j=0;j<5;j++)
-           //     tmp.pop_back();
-            
-           // tmp.clear();
         }
         Qsort(middle,0,number_d-1);
         
@@ -105,20 +90,7 @@ int select(vector<int> arrp, int number, int rank){
         int big   =0;
         vector<int> arrb;
         vector<int> arrs;
-        /*
-        for(int i=0;i<number;i++){
-            if(arrp[i] > median && arrp[i] != 30001){
-                arrb.push_back(arrp[i]);
-                big++;
-            }
-            else if(arrp[i] < median){
-                arrs.push_back(arrp[i]);
-                small++;
-            }
-           
-           
-        }
-        */
+      
         for(auto x: arrp){
             if(x > median && x != 30001){
                 arrb.push_back(x);
@@ -165,37 +137,6 @@ void select_ps(){
     file.close();
 }
 
-
-/*
-
-void exchange(int *l, int *r){    //change
-    int temp = *l;
-    *l = *r;
-    *r = temp;
-}
-int Partition(int *arr_fqs, int head, int tail){
-    int pivot = arr_fqs[tail];
-    int j = head -1;
-    for (int i = head; i < tail; i++) {
-        if (arr_fqs[i] < pivot) {
-            j++;
-            exchange(&arr_fqs[j],&arr_fqs[i]);  //any smaller than pivot should put to left
-        }
-    }
-    j++;
-    exchange(&arr_fqs[j], &arr_fqs[tail]); // put pivot to right position
-    return j;
-}
-void Qsort(int *arr_fqs,int head, int tail){
-    if (head < tail) {
-        int pivot = Partition(arr_fqs,head, tail);
-        Qsort(arr_fqs, head, pivot - 1);
-        Qsort(arr_fqs, pivot + 1, tail);
-    }
-}
- 
-
-*/
 
 
 void readFile(){
