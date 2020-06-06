@@ -52,10 +52,18 @@ void Qsort(vector<int> &vec, int head, int tail) {
 
 int select(vector<int> arrp, int number, int rank){
 
-
+   //cout << number << endl;
    
     int need = number%5;
-  
+/*
+    if(number <20){
+        for (auto i : arrp){
+            cout << i <<" ";
+        }
+        cout <<endl;
+        cout << number << " "<< rank << endl;
+    }
+  */
     if(need >0)
         need = 5 - need;
     number += need;
@@ -64,29 +72,31 @@ int select(vector<int> arrp, int number, int rank){
     }    
 
     if(number <=5){
-        Qsort(arrp,0,arrp.size()-1);  // directly brute force search   
-
+        Qsort(arrp,0,number-1);  // directly brute force search   
+         
         return arrp[rank-1];
     }
     else{
        
         vector<int> middle;       //sort each 5 item group and sort all group by median 
-        vector<int> tmp;
-        for(int i=0;i<number/5;i++){
+        //vector<int> tmp;
+        int number_d = number/5;
+        for(int i=0;i<number_d;i++){
          
-            for(int j=0;j<5;j++){
-              tmp.push_back(arrp[i*5+j]);
-            }
-            Qsort(tmp,0,tmp.size()-1);
-
-            middle.push_back(tmp[2]);
-
-            for(int j=0;j<5;j++)
-                tmp.pop_back();
+         //   for(int j=0;j<5;j++){
+          //    tmp.push_back(arrp[i*5+j]);
+         //   }
+            Qsort(arrp,5*i,5*i+4);
             
+            middle.push_back(arrp[5*i+2]);
+            
+           // for(int j=0;j<5;j++)
+           //     tmp.pop_back();
+            
+           // tmp.clear();
         }
-        Qsort(middle,0,middle.size()-1);
-
+        Qsort(middle,0,number_d-1);
+        
 
     
         int median = middle[number/10-1];
@@ -95,6 +105,7 @@ int select(vector<int> arrp, int number, int rank){
         int big   =0;
         vector<int> arrb;
         vector<int> arrs;
+        /*
         for(int i=0;i<number;i++){
             if(arrp[i] > median && arrp[i] != 30001){
                 arrb.push_back(arrp[i]);
@@ -105,13 +116,25 @@ int select(vector<int> arrp, int number, int rank){
                 small++;
             }
            
-           equal = number -small -big -need;
+           
         }
+        */
+        for(auto x: arrp){
+            if(x > median && x != 30001){
+                arrb.push_back(x);
+                big++;
+            }
+            else if(x < median){
+                arrs.push_back(x);
+                small++;
+            }
 
+        }
+        equal = number -small -big -need;
         // next recursive
 
-        if(rank < small)  return select(arrs, small, rank);
-        else if(rank < small +equal) return median;
+        if(rank <= small)  return select(arrs, small, rank);
+        else if(rank <= small +equal) return median;
         else return select(arrb, number-small-equal-need, rank-small-equal);
         
     }
